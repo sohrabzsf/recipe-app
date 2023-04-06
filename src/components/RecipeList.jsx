@@ -4,7 +4,7 @@ function RecipeList({ recipes }) {
   return (
     <section className="flex flex-wrap gap-6 justify-center">
       {recipes.map((recipe) => {
-        return <Recipe key={recipe.id} {...recipe} />;
+        return <Recipe key={recipe.id} recipe={recipe} />;
       })}
     </section>
   );

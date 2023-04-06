@@ -1,15 +1,15 @@
-import { RecipesProvider } from "./contexts/RecipesContext";
+import { AppProvider } from "./contexts/AppContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Home from "./Pages/Home";
-import FindRecipes from "./Pages/FindRecipes";
-import MyCollection from "./Pages/MyCollection";
-import About from "./Pages/About";
+import Home from "./pages/Home";
+import FindRecipes from "./pages/FindRecipes";
+import MyCollection from "./pages/MyCollection";
+import About from "./pages/About";
 
 function App() {
   return (
-    <RecipesProvider>
+    <AppProvider>
       <Router>
         <div className="flex flex-col h-screen justify-between">
           <Navbar />
@@ -24,7 +24,7 @@ function App() {
           <Footer />
         </div>
       </Router>
-    </RecipesProvider>
+    </AppProvider>
   );
 }
 

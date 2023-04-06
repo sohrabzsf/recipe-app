@@ -1,9 +1,12 @@
 import { useContext } from "react";
-import { RecipesContext } from "../contexts/RecipesContext";
+import { AppContext } from "../contexts/AppContext";
 import { FaEnvelopeOpenText, FaPencilAlt, FaTrash } from "react-icons/fa";
 
-function Recipe({ id, name, origin, instructions, ingredientsNames }) {
-  const { deleteRecipe } = useContext(RecipesContext);
+function Recipe({ recipe }) {
+  const { handleRecipeEdit, handleRecipeDelete } = useContext(AppContext);
+  const ingredientsNames = recipe.ingredients.map(
+    (ingredient) => ingredient.name
+  );
 
   function makeDescription(str) {
     if (str.length <= 100) {
@@ -15,25 +18,30 @@ function Recipe({ id, name, origin, instructions, ingredientsNames }) {
   }
 
   return (
-    <section className="card card-compact w-full max-w-md shadow-md bg-neutral">
+    <section className="card card-compact w-full max-w-lg shadow-md bg-neutral">
       <div className="card-body h-80">
         <div className="flex justify-between">
-          <h3 className="card-title text-2xl text-primary font-bold">{name}</h3>
+          <h3 className="card-title text-2xl text-primary font-bold">
+            {recipe.name}
+          </h3>
           <div className="card-actions flex-none">
             <div className="tooltip tooltip-info" data-tip="More Details">
-              <button className="btn btn-circle btn-info text-lg text-gray-900">
+              <button className="btn btn-sm btn-square btn-info text-lg text-gray-900">
                 <FaEnvelopeOpenText />
               </button>
             </div>
-            <div className="tooltip tooltip-success" data-tip="Edit">
-              <button className="btn btn-circle btn-success text-lg text-gray-900">
+            <div className="tooltip tooltip-success" data-tip="Edit Recipe">
+              <button
+                onClick={() => handleRecipeEdit(recipe)}
+                className="btn btn-sm btn-square btn-success text-lg text-gray-900"
+              >
                 <FaPencilAlt />
               </button>
             </div>
-            <div className="tooltip tooltip-error" data-tip="Delete">
+            <div className="tooltip tooltip-error" data-tip="Delete Recipe">
               <button
-                onClick={() => deleteRecipe(id)}
-                className="btn btn-circle btn-error text-lg text-gray-900"
+                onClick={() => handleRecipeDelete(recipe.id)}
+                className="btn btn-sm btn-square btn-error text-lg text-gray-900"
               >
                 <FaTrash />
               </button>
@@ -42,12 +50,12 @@ function Recipe({ id, name, origin, instructions, ingredientsNames }) {
         </div>
         <div>
           <span className="text-xl font-bold mr-2">Origin:</span>
-          <span className="text-lg">{origin}</span>
+          <span className="text-lg">{recipe.origin}</span>
         </div>
         <div>
           <span className="text-xl font-bold">Instructions:</span>
           <div className="text-lg text-justify whitespace-pre-wrap">
-            {makeDescription(instructions)}
+            {makeDescription(recipe.instructions)}
           </div>
         </div>
         <div>
