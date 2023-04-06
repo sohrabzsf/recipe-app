@@ -1,9 +1,17 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
-import { FaEnvelopeOpenText, FaPencilAlt, FaTrash } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import {
+  FaEnvelopeOpenText,
+  FaPencilAlt,
+  FaTrash,
+  FaSdCard,
+} from "react-icons/fa";
 
 function Recipe({ recipe }) {
-  const { handleRecipeEdit, handleRecipeDelete } = useContext(AppContext);
+  const { handleRecipeSave, handleRecipeEdit, handleRecipeDelete } =
+    useContext(AppContext);
+  const isOnMyCollection = useLocation().pathname.startsWith("/mycollection");
   const ingredientsNames = recipe.ingredients.map(
     (ingredient) => ingredient.name
   );
@@ -30,22 +38,38 @@ function Recipe({ recipe }) {
                 <FaEnvelopeOpenText />
               </button>
             </div>
-            <div className="tooltip tooltip-success" data-tip="Edit Recipe">
-              <button
-                onClick={() => handleRecipeEdit(recipe)}
-                className="btn btn-sm btn-square btn-success text-lg text-gray-900"
+            {isOnMyCollection ? (
+              <>
+                <div className="tooltip tooltip-success" data-tip="Edit Recipe">
+                  <button
+                    onClick={() => handleRecipeEdit(recipe)}
+                    className="btn btn-sm btn-square btn-success text-lg text-gray-900"
+                  >
+                    <FaPencilAlt />
+                  </button>
+                </div>
+                <div className="tooltip tooltip-error" data-tip="Delete Recipe">
+                  <button
+                    onClick={() => handleRecipeDelete(recipe.id)}
+                    className="btn btn-sm btn-square btn-error text-lg text-gray-900"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div
+                className="tooltip tooltip-success"
+                data-tip="Save to My Collection"
               >
-                <FaPencilAlt />
-              </button>
-            </div>
-            <div className="tooltip tooltip-error" data-tip="Delete Recipe">
-              <button
-                onClick={() => handleRecipeDelete(recipe.id)}
-                className="btn btn-sm btn-square btn-error text-lg text-gray-900"
-              >
-                <FaTrash />
-              </button>
-            </div>
+                <button
+                  onClick={() => handleRecipeSave(recipe)}
+                  className="btn btn-sm btn-square btn-success text-lg text-gray-900"
+                >
+                  <FaSdCard />
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div>
