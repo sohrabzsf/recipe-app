@@ -1,15 +1,18 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
 import RecipeSearch from "../components/RecipeSearch";
+import Alert from "../components/Alert";
+import Spinner from "../components/Spinner";
 import RecipeList from "../components/RecipeList";
 
 function FindRecipes() {
-  const { results } = useContext(AppContext);
+  const { results, loading } = useContext(AppContext);
 
   return (
     <>
       <RecipeSearch />
-      <RecipeList recipes={results} />
+      <Alert />
+      {loading ? <Spinner /> : <RecipeList recipes={results} />}
     </>
   );
 }

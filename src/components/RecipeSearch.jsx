@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 
 function RecipeSearch() {
   const [text, setText] = useState("");
-  const { searchRecipes } = useContext(AppContext);
+  const { searchRecipes, showAlert } = useContext(AppContext);
 
   function handleInputChange(e) {
     setText(e.target.value);
@@ -13,7 +13,9 @@ function RecipeSearch() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (text !== "") {
+    if (text === "") {
+      showAlert("Please enter something into search bar.", "error");
+    } else {
       searchRecipes(text);
       setText("");
     }
@@ -32,7 +34,6 @@ function RecipeSearch() {
           value={text}
           onChange={handleInputChange}
           className="input input-lg input-bordered input-secondary text-xl flex-1"
-          required
         />
         <button
           type="submit"

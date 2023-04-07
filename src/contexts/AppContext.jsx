@@ -7,12 +7,17 @@ export const AppContext = createContext();
 export function AppProvider({ children }) {
   const [collection, setCollection] = useLocalStorage("myRecipeCollection", []);
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(null);
   const [form, setForm] = useState({
     inputs: {},
     shown: false,
   });
 
   async function searchRecipes(text) {
+    setResults([]);
+    setLoading(true);
+
     let params;
     let response;
     let data;
@@ -28,7 +33,19 @@ export function AppProvider({ children }) {
 
     if (data && data.meals) {
       setResults(convertToResults(data.meals));
+    } else if (data && data.meals === null) {
+      showAlert("Sorry, we couldn't find any match.", "error");
+    } else {
+      showAlert("Network error! Please check your connection.", "error");
     }
+
+    setLoading(false);
+  }
+
+  function showAlert(message, type) {
+    setAlert({ message: message, type: type });
+
+    setTimeout(() => setAlert(null), 3000);
   }
 
   function handleRecipeAdd() {
@@ -49,8 +66,9 @@ export function AppProvider({ children }) {
 
     if (existingIndex === -1) {
       setCollection([recipe, ...collection]);
+      showAlert("Added recipe to your collection.", "success");
     } else {
-      alert("This recipe was in your collection already.");
+      showAlert("Recipe was in your collection already.", "warning");
     }
   }
 
@@ -117,9 +135,12 @@ export function AppProvider({ children }) {
     <AppContext.Provider
       value={{
         collection,
-        form,
         results,
+        loading,
+        alert,
+        form,
         searchRecipes,
+        showAlert,
         handleRecipeAdd,
         handleRecipeSave,
         handleRecipeEdit,

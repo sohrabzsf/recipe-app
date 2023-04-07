@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
-import { FaPizzaSlice, FaBars, FaTimes } from "react-icons/fa";
+import { FaPizzaSlice, FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
 import useResponsiveNavbar from "../hooks/useResponsiveNavbar";
+import useTheme from "../hooks/useTheme";
 
 function Navbar() {
   const { isMobile, showMenu, handleMenuClick } = useResponsiveNavbar();
+  const { dayMode, theme, toggleTheme } = useTheme(
+    "theme",
+    "daymode",
+    "nightmode"
+  );
 
   return (
     <nav className="navbar justify-between px-6 shadow-lg bg-neutral">
@@ -12,11 +18,16 @@ function Navbar() {
         <span className="text-3xl font-bold text-primary">Foodies Hub</span>
       </div>
       <div className="relative">
+        <button
+          onClick={toggleTheme}
+          className="btn btn-sm btn-circle btn-primary text-xl text-neutral mr-6"
+        >
+          {theme === dayMode ? <FaMoon /> : <FaSun />}
+        </button>
         {isMobile ? (
-          <FaBars
-            className="text-2xl text-primary cursor-pointer"
-            onClick={handleMenuClick}
-          />
+          <button onClick={handleMenuClick} className="text-2xl text-primary">
+            <FaBars />
+          </button>
         ) : (
           <ul className="flex justify-end gap-6">
             <li>
@@ -54,17 +65,11 @@ function Navbar() {
           </ul>
         )}
         {isMobile && showMenu && (
-          <ul className="absolute z-10 -top-5 -right-6 shadow-lg bg-neutral rounded-lg p-8">
-            <li>
-              <FaTimes
-                className="text-2xl text-primary cursor-pointer"
-                onClick={handleMenuClick}
-              />
-            </li>
+          <ul className="absolute flex flex-col gap-6 p-8 z-10 top-12 -right-6 shadow-lg rounded-bl-2xl bg-neutral">
             <li>
               <Link
                 to="/"
-                className="block mt-4 text-lg font-bold text-primary hover:underline underline-offset-4"
+                className="text-lg font-bold text-primary hover:underline underline-offset-4"
                 onClick={handleMenuClick}
               >
                 Home
@@ -73,7 +78,7 @@ function Navbar() {
             <li>
               <Link
                 to="/findrecipes"
-                className="block mt-4 text-lg font-bold text-primary whitespace-nowrap hover:underline underline-offset-4"
+                className="text-lg font-bold text-primary whitespace-nowrap hover:underline underline-offset-4"
                 onClick={handleMenuClick}
               >
                 Find Recipes
@@ -82,7 +87,7 @@ function Navbar() {
             <li>
               <Link
                 to="/mycollection"
-                className="block mt-4 text-lg font-bold text-primary whitespace-nowrap hover:underline underline-offset-4"
+                className="text-lg font-bold text-primary whitespace-nowrap hover:underline underline-offset-4"
                 onClick={handleMenuClick}
               >
                 My Collection
@@ -91,7 +96,7 @@ function Navbar() {
             <li>
               <Link
                 to="/about"
-                className="block mt-4 text-lg font-bold text-primary hover:underline underline-offset-4"
+                className="text-lg font-bold text-primary hover:underline underline-offset-4"
                 onClick={handleMenuClick}
               >
                 About

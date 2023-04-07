@@ -27,12 +27,12 @@ function Recipe({ recipe }) {
 
   return (
     <section className="card card-compact w-full max-w-lg shadow-md bg-neutral">
-      <div className="card-body h-80">
+      <div className="card-body">
         <div className="flex justify-between">
           <h3 className="card-title text-2xl text-primary font-bold">
             {recipe.name}
           </h3>
-          <div className="card-actions flex-none">
+          <div className="card-actions flex-none ml-2">
             <div className="tooltip tooltip-info" data-tip="More Details">
               <button className="btn btn-sm btn-square btn-info text-lg text-gray-900">
                 <FaEnvelopeOpenText />
@@ -60,7 +60,7 @@ function Recipe({ recipe }) {
             ) : (
               <div
                 className="tooltip tooltip-success"
-                data-tip="Save to My Collection"
+                data-tip="Add to My Collection"
               >
                 <button
                   onClick={() => handleRecipeSave(recipe)}
