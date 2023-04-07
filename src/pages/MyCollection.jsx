@@ -10,7 +10,7 @@ function MyCollection() {
     <>
       <button
         onClick={handleRecipeAdd}
-        className="btn btn-secondary self-center mb-6 text-gray-900"
+        className="btn btn-secondary self-center mb-6 text-lg text-gray-900"
       >
         Add Recipe
       </button>
