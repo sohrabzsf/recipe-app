@@ -53,7 +53,8 @@ export function AppProvider({ children }) {
       inputs: {
         id: uuidv4(),
         name: "",
-        origin: "",
+        cuisine: "",
+        imagePath: "",
         instructions: "",
         ingredients: [],
       },
@@ -161,7 +162,8 @@ function convertToResults(meals) {
   const resultsArray = meals.map((meal) => {
     const id = meal.idMeal;
     const name = meal.strMeal;
-    const origin = meal.strArea;
+    const cuisine = meal.strArea;
+    const imagePath = meal.strMealThumb;
     const instructions = meal.strInstructions.replace(/\r\n/g, " ");
     const ingredients = [];
 
@@ -178,7 +180,7 @@ function convertToResults(meals) {
       }
     }
 
-    return { id, name, origin, instructions, ingredients };
+    return { id, name, cuisine, imagePath, instructions, ingredients };
   });
 
   return resultsArray;

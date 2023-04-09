@@ -22,7 +22,7 @@ function RecipeForm({ recipe }) {
   return (
     <form
       onSubmit={handleFormSave}
-      className="form-control self-center rounded-2xl w-full max-w-2xl shadow-md bg-neutral p-4 mb-6"
+      className="form-control self-center rounded-2xl w-full max-w-2xl shadow-md bg-neutral p-4 mb-6 lg:mb-10"
     >
       <label htmlFor="name" className="label font-bold pb-1">
         Name
@@ -36,15 +36,27 @@ function RecipeForm({ recipe }) {
         className="input input-sm input-bordered input-secondary text-lg mb-2"
         required
       />
-      <label htmlFor="origin" className="label font-bold pb-1">
-        Origin
+      <label htmlFor="cuisine" className="label font-bold pb-1">
+        Cuisine
       </label>
       <input
         type="text"
-        name="origin"
-        id="origin"
-        value={recipe.origin}
-        onChange={(e) => handleInputChange({ origin: e.target.value })}
+        name="cuisine"
+        id="cuisine"
+        value={recipe.cuisine}
+        onChange={(e) => handleInputChange({ cuisine: e.target.value })}
+        className="input input-sm input-bordered input-secondary text-lg mb-2"
+        required
+      />
+      <label htmlFor="image-path" className="label font-bold pb-1">
+        Image Path
+      </label>
+      <input
+        type="text"
+        name="image-path"
+        id="image-path"
+        value={recipe.imagePath}
+        onChange={(e) => handleInputChange({ imagePath: e.target.value })}
         className="input input-sm input-bordered input-secondary text-lg mb-2"
         required
       />

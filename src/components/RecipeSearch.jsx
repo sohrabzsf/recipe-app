@@ -24,7 +24,7 @@ function RecipeSearch() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="form-control self-center w-full max-w-2xl mb-6"
+      className="form-control self-center w-full max-w-2xl mb-6 lg:mb-10"
     >
       <div className="input-group">
         <input

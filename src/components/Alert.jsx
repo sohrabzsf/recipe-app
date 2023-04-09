@@ -6,7 +6,7 @@ function Alert() {
   const { alert } = useContext(AppContext);
   return (
     alert !== null && (
-      <div className="flex self-center max-w-2xl mb-6 gap-2">
+      <div className="flex self-center max-w-2xl gap-2 mb-6 lg:mb-10">
         {alert.type === "error" && (
           <FaExclamationCircle className="flex-none text-3xl text-error" />
         )}

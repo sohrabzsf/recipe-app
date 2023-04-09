@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "../contexts/AppContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   FaEnvelopeOpenText,
   FaPencilAlt,
@@ -12,6 +12,7 @@ function Recipe({ recipe }) {
   const { handleRecipeSave, handleRecipeEdit, handleRecipeDelete } =
     useContext(AppContext);
   const isOnMyCollection = useLocation().pathname.startsWith("/mycollection");
+  const navigate = useNavigate();
   const ingredientsNames = recipe.ingredients.map(
     (ingredient) => ingredient.name
   );
@@ -27,6 +28,9 @@ function Recipe({ recipe }) {
 
   return (
     <section className="card card-compact w-full max-w-lg shadow-md bg-neutral">
+      <figure className="h-80 opacity-75">
+        <img src={recipe.imagePath} alt="Recipe Image" />
+      </figure>
       <div className="card-body">
         <div className="flex justify-between">
           <h3 className="card-title text-2xl text-primary font-bold">
@@ -34,7 +38,10 @@ function Recipe({ recipe }) {
           </h3>
           <div className="card-actions flex-none ml-2">
             <div className="tooltip tooltip-info" data-tip="More Details">
-              <button className="btn btn-sm btn-square btn-info text-lg text-gray-900">
+              <button
+                onClick={() => navigate(`recipes/${recipe.id}/details`)}
+                className="btn btn-sm btn-square btn-info text-lg text-gray-900"
+              >
                 <FaEnvelopeOpenText />
               </button>
             </div>
@@ -73,8 +80,8 @@ function Recipe({ recipe }) {
           </div>
         </div>
         <div>
-          <span className="text-xl font-bold mr-2">Origin:</span>
-          <span className="text-lg">{recipe.origin}</span>
+          <span className="text-xl font-bold mr-2">Cuisine:</span>
+          <span className="text-lg">{recipe.cuisine}</span>
         </div>
         <div>
           <span className="text-xl font-bold">Instructions:</span>

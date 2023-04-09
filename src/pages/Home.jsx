@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaCheck, FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import chicken from "../assets/chicken.jpg";
 import paella from "../assets/paella.jpg";
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="self-center my-16 lg:my-24 lg:px-6">
       <section className="flex justify-center items-center flex-col lg:flex-row-reverse gap-16 mb-24 lg:mb-32 p-0">
@@ -19,8 +21,11 @@ function Home() {
             delicious food recipes of all cuisine. And our service is absolutely
             free. So start exploring now.
           </p>
-          <button className="btn btn-secondary text-lg text-gray-900">
-            <Link to="/findrecipes">Explore Now</Link>
+          <button
+            onClick={() => navigate("/findrecipes")}
+            className="btn btn-secondary text-lg text-gray-900"
+          >
+            Explore Now
           </button>
         </div>
       </section>
@@ -53,8 +58,11 @@ function Home() {
               recipes
             </li>
           </ul>
-          <button className="btn btn-secondary text-lg text-gray-900">
-            <Link to="/mycollection">Start Now</Link>
+          <button
+            onClick={() => navigate("/mycollection")}
+            className="btn btn-secondary text-lg text-gray-900"
+          >
+            Start Now
           </button>
         </div>
       </section>
