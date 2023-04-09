@@ -4,6 +4,8 @@ import { AppContext } from "../contexts/AppContext";
 
 function FormIngredient({ ingredient, handleChange }) {
   const { handleIngredientDelete } = useContext(AppContext);
+
+  // updates the state of ingredient fields in the form
   function handleInputChange(changes) {
     handleChange(ingredient.id, { ...ingredient, ...changes });
   }

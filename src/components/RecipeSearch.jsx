@@ -6,10 +6,12 @@ function RecipeSearch() {
   const [text, setText] = useState("");
   const { searchRecipes, showAlert } = useContext(AppContext);
 
+  // updates the text state according to the input field
   function handleInputChange(e) {
     setText(e.target.value);
   }
 
+  // starts the search to find recipes based on the input text
   function handleSubmit(e) {
     e.preventDefault();
 

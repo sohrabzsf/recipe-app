@@ -11,6 +11,7 @@ function RecipeForm({ recipe }) {
     handleFormCancel,
   } = useContext(AppContext);
 
+  // modifies and adds to the function for inputs state to work on ingredients array nested deeper
   function handleIngredientChange(id, ingredient) {
     const newIngredients = [...recipe.ingredients];
     const index = newIngredients.findIndex((i) => i.id === id);

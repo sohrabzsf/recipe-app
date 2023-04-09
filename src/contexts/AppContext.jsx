@@ -14,6 +14,7 @@ export function AppProvider({ children }) {
     shown: false,
   });
 
+  // fetches recipes data and sets it to results if the response was successful
   async function searchRecipes(text) {
     setResults([]);
     setLoading(true);
@@ -42,12 +43,14 @@ export function AppProvider({ children }) {
     setLoading(false);
   }
 
+  // shows different alerts according to the parameters received
   function showAlert(message, type) {
     setAlert({ message: message, type: type });
 
     setTimeout(() => setAlert(null), 3000);
   }
 
+  // opens the form with empty input fields
   function handleRecipeAdd() {
     setForm({
       inputs: {
@@ -62,6 +65,7 @@ export function AppProvider({ children }) {
     });
   }
 
+  // saves a recipe from the search results to the collection if it's not already there
   function handleRecipeSave(recipe) {
     const existingIndex = collection.findIndex((item) => item.id === recipe.id);
 
@@ -73,19 +77,23 @@ export function AppProvider({ children }) {
     }
   }
 
+  // opens the form and puts a recipe data from the collection into it for editing
   function handleRecipeEdit(recipe) {
     setForm({ inputs: recipe, shown: true });
   }
 
+  // removes a recipe from the collection
   function handleRecipeDelete(id) {
     const filtered = collection.filter((recipe) => recipe.id !== id);
     setCollection(filtered);
   }
 
+  // updates the form state according to the changes of input fields
   function handleInputChange(changes) {
     setForm({ ...form, inputs: { ...form.inputs, ...changes } });
   }
 
+  // adds new ingredient fields to the open form
   function handleIngredientAdd() {
     const newIngredient = { id: uuidv4(), name: "", measure: "" };
     setForm({
@@ -97,6 +105,7 @@ export function AppProvider({ children }) {
     });
   }
 
+  // removes an ingredient fields from the open form
   function handleIngredientDelete(id) {
     setForm({
       ...form,
@@ -107,6 +116,7 @@ export function AppProvider({ children }) {
     });
   }
 
+  // saves data in the open form to the collection in a new or existing recipe
   function handleFormSave(e) {
     e.preventDefault();
 
@@ -128,6 +138,7 @@ export function AppProvider({ children }) {
     setForm({ inputs: {}, shown: false });
   }
 
+  // closes the form and removes data from it's state
   function handleFormCancel() {
     setForm({ inputs: {}, shown: false });
   }
@@ -158,6 +169,7 @@ export function AppProvider({ children }) {
   );
 }
 
+// converts the array of objects received from the api to desired format and discards extra properties
 function convertToResults(meals) {
   const resultsArray = meals.map((meal) => {
     const id = meal.idMeal;

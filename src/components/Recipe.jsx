@@ -17,6 +17,7 @@ function Recipe({ recipe }) {
     (ingredient) => ingredient.name
   );
 
+  // trims the string received and only keeps the words before 100th character
   function makeDescription(str) {
     if (str.length <= 100) {
       return str;
