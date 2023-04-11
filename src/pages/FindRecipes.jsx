@@ -6,7 +6,7 @@ import Spinner from "../components/Spinner";
 import RecipeList from "../components/RecipeList";
 
 function FindRecipes() {
-  const { results, loading } = useContext(AppContext);
+  const { loading, results } = useContext(AppContext);
 
   return (
     <>

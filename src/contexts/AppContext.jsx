@@ -1,27 +1,29 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { AppReducer, Actions } from "./AppReducer";
 
 export const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [collection, setCollection] = useLocalStorage("myRecipeCollection", []);
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState(null);
-  const [form, setForm] = useState({
-    inputs: {},
-    shown: false,
-  });
+  const initialState = {
+    loading: false,
+    results: [],
+    alert: null,
+    form: { inputs: {}, isOpen: false },
+  };
+  const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // fetches recipes data and sets it to results if the response was successful
   async function searchRecipes(text) {
-    setResults([]);
-    setLoading(true);
+    dispatch({ type: Actions.clearResults });
+    dispatch({ type: Actions.toggleLoading });
 
     let params;
     let response;
     let data;
+
     try {
       params = new URLSearchParams({ s: text });
       response = await fetch(
@@ -33,36 +35,27 @@ export function AppProvider({ children }) {
     }
 
     if (data && data.meals) {
-      setResults(convertToResults(data.meals));
+      dispatch({
+        type: Actions.setResults,
+        payload: convertToResults(data.meals),
+      });
     } else if (data && data.meals === null) {
       showAlert("Sorry, we couldn't find any match.", "error");
     } else {
       showAlert("Network error! Please check your connection.", "error");
     }
 
-    setLoading(false);
+    dispatch({ type: Actions.toggleLoading });
   }
 
   // shows different alerts according to the parameters received
   function showAlert(message, type) {
-    setAlert({ message: message, type: type });
-
-    setTimeout(() => setAlert(null), 3000);
-  }
-
-  // opens the form with empty input fields
-  function handleRecipeAdd() {
-    setForm({
-      inputs: {
-        id: uuidv4(),
-        name: "",
-        cuisine: "",
-        imagePath: "",
-        instructions: "",
-        ingredients: [],
-      },
-      shown: true,
+    dispatch({
+      type: Actions.setAlert,
+      payload: { message: message, type: type },
     });
+
+    setTimeout(() => dispatch({ type: Actions.clearAlert }), 3000);
   }
 
   // saves a recipe from the search results to the collection if it's not already there
@@ -77,41 +70,61 @@ export function AppProvider({ children }) {
     }
   }
 
+  // opens the form with empty input fields to create new recipe
+  function handleRecipeAdd() {
+    dispatch({
+      type: Actions.setForm,
+      payload: {
+        id: uuidv4(),
+        name: "",
+        cuisine: "",
+        imagePath: "",
+        instructions: "",
+        ingredients: [],
+      },
+    });
+  }
+
   // opens the form and puts a recipe data from the collection into it for editing
   function handleRecipeEdit(recipe) {
-    setForm({ inputs: recipe, shown: true });
+    dispatch({ type: Actions.setForm, payload: recipe });
   }
 
   // removes a recipe from the collection
   function handleRecipeDelete(id) {
     const filtered = collection.filter((recipe) => recipe.id !== id);
+
     setCollection(filtered);
   }
 
   // updates the form state according to the changes of input fields
   function handleInputChange(changes) {
-    setForm({ ...form, inputs: { ...form.inputs, ...changes } });
+    dispatch({
+      type: Actions.setForm,
+      payload: { ...state.form.inputs, ...changes },
+    });
   }
 
   // adds new ingredient fields to the open form
   function handleIngredientAdd() {
     const newIngredient = { id: uuidv4(), name: "", measure: "" };
-    setForm({
-      ...form,
-      inputs: {
-        ...form.inputs,
-        ingredients: [...form.inputs.ingredients, newIngredient],
+
+    dispatch({
+      type: Actions.setForm,
+      payload: {
+        ...state.form.inputs,
+        ingredients: [...state.form.inputs.ingredients, newIngredient],
       },
     });
   }
 
   // removes an ingredient fields from the open form
   function handleIngredientDelete(id) {
-    setForm({
-      ...form,
-      inputs: {
-        ...form.inputs,
-        ingredients: form.inputs.ingredients.filter((i) => i.id !== id),
+    dispatch({
+      type: Actions.setForm,
+      payload: {
+        ...state.form.inputs,
+        ingredients: state.form.inputs.ingredients.filter((i) => i.id !== id),
       },
     });
   }
@@ -121,40 +134,40 @@ export function AppProvider({ children }) {
     e.preventDefault();
 
     const existingIndex = collection.findIndex(
-      (item) => item.id === form.inputs.id
+      (item) => item.id === state.form.inputs.id
     );
 
     if (existingIndex === -1) {
-      const newRecipe = { ...form.inputs };
+      const newRecipe = { ...state.form.inputs };
 
       setCollection([newRecipe, ...collection]);
     } else {
       const newCollection = JSON.parse(JSON.stringify(collection));
-      newCollection[existingIndex] = form.inputs;
+      newCollection[existingIndex] = state.form.inputs;
 
       setCollection(newCollection);
     }
 
-    setForm({ inputs: {}, shown: false });
+    dispatch({ type: Actions.clearForm });
   }
 
   // closes the form and removes data from it's state
   function handleFormCancel() {
-    setForm({ inputs: {}, shown: false });
+    dispatch({ type: Actions.clearForm });
   }
 
   return (
     <AppContext.Provider
       value={{
         collection,
-        results,
-        loading,
-        alert,
-        form,
+        loading: state.loading,
+        results: state.results,
+        alert: state.alert,
+        form: state.form,
         searchRecipes,
         showAlert,
-        handleRecipeAdd,
         handleRecipeSave,
+        handleRecipeAdd,
         handleRecipeEdit,
         handleRecipeDelete,
         handleInputChange,

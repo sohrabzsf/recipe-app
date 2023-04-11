@@ -22,24 +22,24 @@ function RecipeDetails() {
             alt="Recipe Image"
             className="self-center xl:self-start w-full max-w-xl rounded-2xl"
           />
-          <div className="">
-            <h2 className="text-5xl font-bold mb-6">{recipe.name}</h2>
-            <p className="text-xl mb-3">
-              <span className="font-bold mr-3">Cuisine:</span>
+          <div>
+            <h2 className="text-4xl font-bold mb-6">{recipe.name}</h2>
+            <p className="text-lg mb-3">
+              <span className="text-xl font-bold mr-3">Cuisine:</span>
               {recipe.cuisine}
             </p>
-            <div className="text-xl mb-3">
-              <p className="font-bold">Instructions:</p>
-              <p className="text-justify">{recipe.instructions}</p>
+            <div className="mb-3">
+              <p className="text-xl font-bold">Instructions:</p>
+              <p className="text-lg text-justify">{recipe.instructions}</p>
             </div>
-            <div className="text-xl">
-              <p className="font-bold mb-3">Ingredients:</p>
+            <div>
+              <p className="text-xl font-bold mb-3">Ingredients:</p>
               <div className="grid gap-6 grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
                 {recipe.ingredients.map((ingredient) => {
                   return (
                     <div
                       key={ingredient.id}
-                      className="text-center p-2 rounded-lg bg-neutral"
+                      className="text-lg text-center p-2 rounded-lg bg-neutral"
                     >
                       <span className="font-bold mr-3">{ingredient.name}:</span>
                       <span>{ingredient.measure}</span>

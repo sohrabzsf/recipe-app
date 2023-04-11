@@ -15,7 +15,9 @@ function Navbar() {
     <nav className="navbar justify-between px-6 shadow-lg bg-neutral">
       <div>
         <FaPizzaSlice className="text-3xl text-primary mr-4" />
-        <span className="text-3xl font-bold text-primary">Foodies Hub</span>
+        <span className="flash text-3xl font-bold text-primary">
+          Foodies Hub
+        </span>
       </div>
       <div className="relative">
         <button
@@ -26,7 +28,11 @@ function Navbar() {
         </button>
         {isMobile ? (
           <button onClick={handleMenuClick} className="text-2xl text-primary">
-            <FaBars />
+            {showMenu ? (
+              <FaTimes className="rotate-out" />
+            ) : (
+              <FaBars className="rotate-out" />
+            )}
           </button>
         ) : (
           <ul className="flex justify-end gap-6">

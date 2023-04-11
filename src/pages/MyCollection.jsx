@@ -14,7 +14,7 @@ function MyCollection() {
       >
         Add Recipe
       </button>
-      {form.shown && <RecipeForm recipe={form.inputs} />}
+      {form.isOpen && <RecipeForm recipe={form.inputs} />}
       <RecipeList recipes={collection} />
     </>
   );

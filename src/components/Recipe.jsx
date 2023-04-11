@@ -37,7 +37,7 @@ function Recipe({ recipe }) {
           <h3 className="card-title text-2xl text-primary font-bold">
             {recipe.name}
           </h3>
-          <div className="card-actions flex-none ml-2">
+          <div className="card-actions gap-3 flex-none ml-3">
             <div className="tooltip tooltip-info" data-tip="More Details">
               <button
                 onClick={() => navigate(`recipes/${recipe.id}/details`)}
