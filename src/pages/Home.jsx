@@ -8,7 +8,7 @@ function Home() {
 
   return (
     <div className="self-center my-16 lg:my-24 lg:px-6">
-      <section className="flex justify-center lg:items-center flex-col lg:flex-row-reverse gap-16 mb-24 lg:mb-32 p-0">
+      <section className="flex justify-center items-center flex-col lg:flex-row-reverse gap-16 mb-24 lg:mb-32 p-0">
         <img
           src={chicken}
           alt="A grilled chicken dish."
@@ -29,7 +29,7 @@ function Home() {
           </button>
         </div>
       </section>
-      <section className="flex justify-center lg:items-center flex-col lg:flex-row gap-16 mb-24 lg:mb-32 p-0">
+      <section className="flex justify-center items-center flex-col lg:flex-row gap-16 mb-24 lg:mb-32 p-0">
         <img
           src={paella}
           alt="a spanish paella dish."
